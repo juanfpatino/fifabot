@@ -10,12 +10,14 @@ speed = 0.6 #adjust based on the speed of your browser
 
 #move to the home page and click
 def calibrate():
+    print("Recalibrating...")
     pyautogui.moveTo(100,250, duration = 3)
     pyautogui.click(pause = speed)
-    time.sleep(.5)
+    time.sleep(2)
 
 #go to the transfer market
 def goMarket():
+    print("Heading over to the market...")
     pyautogui.moveTo(100,430, duration = speed)
     pyautogui.click()
     pyautogui.moveTo(600, 430, duration = speed)
@@ -28,7 +30,7 @@ def goMarket():
 
 #search for a player on the tranfer market
 def search(player):
-
+    print("Searching for, ", player)
     pyautogui.press('tab', presses = 5, interval = speed)
     pyautogui.write(player)
     pyautogui.moveTo(600, 480, duration = speed)
@@ -43,12 +45,13 @@ def bid(n):
 #place a bid
 #assume search() has just been called
 #assume you have the coins
-    
+    print("Placing a bid for ", n, "players")    
     pyautogui.moveTo(1600, 670, duration = speed)
     pyautogui.click(pause = speed)
     pyautogui.moveTo(1200, 670, duration = speed)
     for x in range(n): #for now you can only bid three on one page
         #right now it's difficult to tell how many players are on a page
+        pyautogui.press('esc')
         pyautogui.moveTo(1270, 945, duration = speed)#scroll
         pyautogui.click(pause = speed)
         pyautogui.moveTo(1200, random.randint(350, 700), duration = speed)#middle of page
@@ -59,10 +62,12 @@ def bid(n):
         pyautogui.click(pause = speed)
         pyautogui.moveTo(1600, 670, duration = speed)#click bid
         pyautogui.click(pause = speed)
-
+        pyautogui.press('esc')
+   
 
 def sell(n):
 #sell items on transfer list, if any
+    print("Selling players for 1000 coins")
     for x in range(n):
         pyautogui.moveTo(100,430, duration = speed)#mouse goes to "TRANSFERS"
         pyautogui.click(pause = speed)
@@ -80,7 +85,8 @@ def sell(n):
         pyautogui.click(pause = speed)
 
 def sendToTransferList(n):
-    #send 'won' items to transfer list, if any    
+    #send 'won' items to transfer list, if any
+    print("Sending won items to transfer list")
     pyautogui.moveTo(100,430, duration = speed)#mouse goes to "TRANSFERS"
     pyautogui.click(pause = speed)        
     pyautogui.moveTo(1200, 660, duration = speed)
@@ -102,7 +108,17 @@ def main():
     while(True):
         calibrate()
         goMarket()
-        search('valencia') #rare gold discard player #nonrare for testing
+        rando = random.randint(1, 3)
+        player = 'valencia'
+        if rando == 1:
+            player = 'valencia'
+        elif rando == 2:
+            player = 'deeney'
+        elif rando == 3:
+            player = 'calvert'
+        else:
+            player = 'gray'
+        search(player) #rare gold discard player #nonrare for testing
         bid(8)
         sell(8)
         sendToTransferList(8)
