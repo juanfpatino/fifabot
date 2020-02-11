@@ -36,7 +36,8 @@ def search(player):
     pyautogui.moveTo(600, 480, duration = speed)
     pyautogui.click(pause = speed)
     pyautogui.click(pause = speed)
-    pyautogui.press('tab', presses = 4, interval = speed)
+    pyautogui.press('tab', presses = 3, interval = speed)
+    time.sleep(1)
     pyautogui.write('650')
     pyautogui.moveTo(1600, 940, duration = speed)
     pyautogui.click(pause = speed)
@@ -46,23 +47,45 @@ def bid(n):
 #assume search() has just been called
 #assume you have the coins
     print("Placing a bid for ", n, "players")    
-    pyautogui.moveTo(1600, 670, duration = speed)
-    pyautogui.click(pause = speed)
-    pyautogui.moveTo(1200, 670, duration = speed)
+    #pyautogui.moveTo(1600, 670, duration = speed)
+    #pyautogui.click(pause = speed)
+    #pyautogui.moveTo(1200, 670, duration = speed)
+    playerOnPage = 330
+    topOfPage = True
     for x in range(n): #for now you can only bid three on one page
-        #right now it's difficult to tell how many players are on a page
-        pyautogui.press('esc')
-        pyautogui.moveTo(1270, 945, duration = speed)#scroll
-        pyautogui.click(pause = speed)
-        pyautogui.moveTo(1200, random.randint(350, 700), duration = speed)#middle of page
+        pyautogui.moveTo(1200, playerOnPage, duration = speed)#middle of page
         time.sleep(1)
-        pyautogui.press('esc')
-        pyautogui.press('esc')
-        pyautogui.click(pause = speed)
         pyautogui.click(pause = speed)
         pyautogui.moveTo(1600, 670, duration = speed)#click bid
         pyautogui.click(pause = speed)
-        pyautogui.press('esc')
+        pyautogui.press('esc')  #incase of double bid
+        playerOnPage = playerOnPage + 120
+        if playerOnPage > 800:
+            playerOnPage = 330
+            if topOfPage == True:
+                pyautogui.moveTo(1270, 910, duration = speed)#scroll
+                topOfPage = False
+            else:
+                pyautogui.moveTo(1270, 910, duration = speed)#hit next page button
+                topOfPage = True
+
+    
+#    for x in range(n): #for now you can only bid three on one page
+#        #right now it's difficult to tell how many players are on a page
+#        pyautogui.press('esc')
+#        pyautogui.moveTo(1270, 945, duration = speed)#scroll
+#        pyautogui.click(pause = speed)
+ #       pyautogui.moveTo(1200, random.randint(350, 700), duration = speed)#middle of page
+  #      time.sleep(1)
+   #     pyautogui.press('esc')
+    #    pyautogui.press('esc')
+     #   pyautogui.click(pause = speed)
+      #  pyautogui.click(pause = speed)
+       # pyautogui.moveTo(1600, 670, duration = speed)#click bid
+        #pyautogui.click(pause = speed)
+        #pyautogui.press('esc')
+
+    
    
 
 def sell(n):
@@ -96,11 +119,23 @@ def sendToTransferList(n):
     pyautogui.moveTo(700, 630, duration = speed)
     pyautogui.mouseUp()
     pyautogui.click(pause = speed)
-    pyautogui.moveTo(1600, 770, duration = speed)
+    pyautogui.moveTo(1270, 870, duration = speed)#scroll
+    for x in range(5):
+        pyautogui.click(pause = speed)
+        time.sleep(.1)
+    pyautogui.moveTo(1200, 330, duration = speed)
+    pyautogui.click()
+    pyautogui.moveTo(1600, 750, duration = speed)
+    pyautogui.click(pause = speed)
+
     for x in range(n):
         pyautogui.click(pause = speed)
+    pyautogui.moveTo(1270, 995, duration = speed)#scroll
  
-
+def test():
+    #pyautogui.moveTo(1200,770, duration = speed)
+    pyautogui.moveTo(1600, 750, duration = speed)
+    #sendToTransferList(20)
     
 def main():
     print(pyautogui.size())
@@ -108,7 +143,7 @@ def main():
     while(True):
         calibrate()
         goMarket()
-        rando = random.randint(1, 3)
+        rando = random.randint(1, 4)
         player = 'valencia'
         if rando == 1:
             player = 'valencia'
@@ -120,7 +155,10 @@ def main():
             player = 'gray'
         search(player) #rare gold discard player #nonrare for testing
         bid(8)
-        sell(8)
-        sendToTransferList(8)
-        time.sleep(3700) #wait an hour + 100 seconds to repeat, allow things to sell/expire
+        for x in range(6):
+            sendToTransferList(20)
+            sell(20)
+            time.sleep(600)
+               
 main()
+#test()
