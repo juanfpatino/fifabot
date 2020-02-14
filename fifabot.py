@@ -63,30 +63,18 @@ def bid(n):
         if playerOnPage > 800:
             playerOnPage = 330
             if topOfPage == True:
-                pyautogui.moveTo(1270, 910, duration = speed)#scroll
+                pyautogui.moveTo(1270, 870, duration = speed)#scroll
+                pyautogui.click(pause = speed)
+                pyautogui.click(pause = speed)
+
                 topOfPage = False
             else:
                 pyautogui.moveTo(1270, 910, duration = speed)#hit next page button
+                pyautogui.click(pause = speed)
+                pyautogui.click(pause = speed)
+                
                 topOfPage = True
-
-    
-#    for x in range(n): #for now you can only bid three on one page
-#        #right now it's difficult to tell how many players are on a page
-#        pyautogui.press('esc')
-#        pyautogui.moveTo(1270, 945, duration = speed)#scroll
-#        pyautogui.click(pause = speed)
- #       pyautogui.moveTo(1200, random.randint(350, 700), duration = speed)#middle of page
-  #      time.sleep(1)
-   #     pyautogui.press('esc')
-    #    pyautogui.press('esc')
-     #   pyautogui.click(pause = speed)
-      #  pyautogui.click(pause = speed)
-       # pyautogui.moveTo(1600, 670, duration = speed)#click bid
-        #pyautogui.click(pause = speed)
-        #pyautogui.press('esc')
-
-    
-   
+  
 
 def sell(n):
 #sell items on transfer list, if any
@@ -102,7 +90,9 @@ def sell(n):
         pyautogui.mouseUp()
         pyautogui.moveTo(1600, 620, duration = speed)
         pyautogui.click(pause = speed)
-        pyautogui.press('tab', presses = 4, interval = speed)
+        pyautogui.press('tab', presses = 1, interval = speed)
+        pyautogui.write('800')#min bid of 800
+        pyautogui.press('tab', presses = 3, interval = speed)
         pyautogui.write('1000')
         pyautogui.moveTo(1600, 920, duration = speed)
         pyautogui.click(pause = speed)
@@ -123,19 +113,21 @@ def sendToTransferList(n):
     for x in range(5):
         pyautogui.click(pause = speed)
         time.sleep(.1)
-    pyautogui.moveTo(1200, 330, duration = speed)
-    pyautogui.click()
-    pyautogui.moveTo(1600, 750, duration = speed)
+    
+    pyautogui.moveTo(900, 330, duration = speed)
+    pyautogui.click(pause = speed)
+    pyautogui.moveTo(1600, 790, duration = speed)
     pyautogui.click(pause = speed)
 
     for x in range(n):
-        pyautogui.click(pause = speed)
+        pyautogui.click(pause = 2) #prevent spazzing out to 'place in active squad'
     pyautogui.moveTo(1270, 995, duration = speed)#scroll
- 
+    pyautogui.press('esc')#incase of pressing "buy now" on transfer targets by mistake
+    pyautogui.press('esc') 
 def test():
     #pyautogui.moveTo(1200,770, duration = speed)
-    pyautogui.moveTo(1600, 750, duration = speed)
-    #sendToTransferList(20)
+    #pyautogui.moveTo(1600, 790, duration = speed)
+    sendToTransferList(20)
     
 def main():
     print(pyautogui.size())
@@ -143,19 +135,23 @@ def main():
     while(True):
         calibrate()
         goMarket()
-        rando = random.randint(1, 4)
-        player = 'valencia'
+        rando = random.randint(0, 5)
+        player = 'gray' #0
         if rando == 1:
-            player = 'valencia'
-        elif rando == 2:
             player = 'deeney'
-        elif rando == 3:
+        elif rando == 2:
             player = 'calvert'
-        else:
-            player = 'gray'
+        elif rando == 3:
+            player = 'tier'
+        elif rando == 4:
+            player = 'ceballos'
+        elif rando == 5:
+            player = 'alex o'
+  
+       
         search(player) #rare gold discard player #nonrare for testing
-        bid(8)
-        for x in range(6):
+        bid(5)
+        for x in range(3):
             sendToTransferList(20)
             sell(20)
             time.sleep(600)
