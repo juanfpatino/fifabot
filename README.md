@@ -11,4 +11,4 @@ Instructions:
 4. Log into the Web App https://www.easports.com/fifa/ultimate-team/web-app/
 5. Run the program!
 
-This program is unfinished and should expect many bugs.
+This program is unfinished and should expect many bugs. Works best on Opera browser
