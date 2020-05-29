@@ -56,7 +56,7 @@ def bid(n):
         pyautogui.moveTo(1200, playerOnPage, duration = speed)#middle of page
         time.sleep(1)
         pyautogui.click(pause = speed)
-        pyautogui.moveTo(1600, 670, duration = speed)#click bid
+        pyautogui.moveTo(1550, 670, duration = speed)#click bid
         pyautogui.click(pause = speed)
         pyautogui.press('esc')  #incase of double bid
         playerOnPage = playerOnPage + 120
