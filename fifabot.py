@@ -62,33 +62,38 @@ def bid(n, player):
     png = ".png"
     path = "imgs/"
     img = path + player + png
-
-    for x in range(n):  # for now you can only bid three on one page
+    bids = 0
+    while True:  # for now you can only bid three on one page
         pyautogui.moveTo(1200, playerOnPage, duration=speed)  # middle of page
         time.sleep(1)
         pyautogui.click(pause=speed)
-        print("Looking for ", img)
-        pyautogui.locateOnScreen(img);
-        pyautogui.moveTo(1550, 670, duration=speed)  # click bid
+        try:
+            pyautogui.locateOnScreen(img);
+            pyautogui.moveTo(1550, 670, duration=speed)  # click bid
+            pyautogui.click(pause=speed)
+            bids = bids + 1
+            pyautogui.press('esc')  # incase of double bid
+            playerOnPage = playerOnPage + 120
+            if playerOnPage > 800:
+                playerOnPage = 330
+                if topOfPage == True:
+                    pyautogui.moveTo(1270, 870, duration=speed)  # scroll
+                    pyautogui.click(pause=speed)
+                    pyautogui.click(pause=speed)
 
-        pyautogui.click(pause=speed)
-        pyautogui.press('esc')  # incase of double bid
-        playerOnPage = playerOnPage + 120
-        if playerOnPage > 800:
-            playerOnPage = 330
-            if topOfPage == True:
-                pyautogui.moveTo(1270, 870, duration=speed)  # scroll
-                pyautogui.click(pause=speed)
-                pyautogui.click(pause=speed)
+                    topOfPage = False
+                else:
+                    pyautogui.moveTo(1270, 910, duration=speed)  # hit next page button
+                    pyautogui.click(pause=speed)
+                    pyautogui.click(pause=speed)
 
-                topOfPage = False
-            else:
-                pyautogui.moveTo(1270, 910, duration=speed)  # hit next page button
-                pyautogui.click(pause=speed)
-                pyautogui.click(pause=speed)
-
-                topOfPage = True
-
+                    topOfPage = True
+            for x in range(3):
+                sendToTransferList(20)
+                sell(20)
+                time.sleep(600)
+        except pyautogui.ImageNotFoundException():
+            print("No resuults!")
 
 def sell(n):
     # sell items on transfer list, if any
@@ -168,10 +173,7 @@ def main():
 
         search(player)  # rare gold discard player #nonrare for testing
         bid(5, player)
-        for x in range(3):
-            sendToTransferList(20)
-            sell(20)
-            time.sleep(600)
+
 
 
 main()
