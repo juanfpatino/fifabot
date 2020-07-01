@@ -67,6 +67,7 @@ def bid(n, player):
         pyautogui.moveTo(1200, playerOnPage, duration=speed)  # middle of page
         time.sleep(1)
         pyautogui.click(pause=speed)
+        exceptions = (pyautogui.ImageNotFoundException(), ValueError)
         try:
             pyautogui.locateOnScreen(img);
             pyautogui.moveTo(1550, 670, duration=speed)  # click bid
@@ -88,13 +89,14 @@ def bid(n, player):
                     pyautogui.click(pause=speed)
 
                     topOfPage = True
-            for x in range(3):
-                sendToTransferList(20)
-                sell(20)
-                time.sleep(600)
-        except pyautogui.ImageNotFoundException():
-            print("No resuults!")
 
+        except exceptions:
+            print("Ran out of players to bid on page.")
+            break
+    for x in range(3):
+        sendToTransferList(20)
+        sell(20)
+        time.sleep(600)
 def sell(n):
     # sell items on transfer list, if any
     print("Selling players for 1000 coins")
